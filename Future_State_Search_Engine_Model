@@ -1,0 +1,302 @@
+Option Explicit
+
+Sub searchExecuteFutureState()
+
+Application.ScreenUpdating = False
+Application.Calculation = xlManual
+
+Worksheets("Engine").Range("C11:K300").ClearContents
+
+Dim rowCount, a, b, c, loadCount As Long, assetDataCount As Integer, formattedUPC(), assetPath(), assetStatus(), assetCategory(), _
+brand(), assetType(), productImageAngle(), targetChannel(), alternate(), OOP(), bundle(), loadFormattedUPC(), _
+loadAssetPath(), loadAssetStatus(), loadAssetCategory(), loadBrand(), loadAssetType(), _
+loadProductImageAngle(), loadTargetChannel(), loadAlternate(), loadOOP(), _
+loadBundle(), searchValue, excludeExpired, bundleFilter As Variant
+
+rowCount = WorksheetFunction.CountA(Worksheets("Future State Data").Columns(1))
+a = 0
+b = 0
+c = 10
+assetDataCount = 12
+searchValue = Worksheets("Engine").Cells(2, 2).Value
+excludeExpired = Worksheets("Engine").Cells(6, 8).Value
+bundleFilter = Worksheets("Engine").Cells(6, 2).Value
+
+Worksheets("Future State Data").Activate
+
+ReDim formattedUPC(rowCount)
+ReDim assetPath(rowCount)
+ReDim assetStatus(rowCount)
+ReDim assetCategory(rowCount)
+ReDim brand(rowCount)
+ReDim assetType(rowCount)
+ReDim productImageAngle(rowCount)
+ReDim targetChannel(rowCount)
+ReDim alternate(rowCount)
+ReDim OOP(rowCount)
+ReDim bundle(rowCount)
+
+For a = 0 To rowCount
+    formattedUPC(a) = Cells(a + 1, 1)
+    assetPath(a) = Cells(a + 1, 2)
+    assetStatus(a) = Cells(a + 1, 3)
+    assetCategory(a) = Cells(a + 1, 4)
+    brand(a) = Cells(a + 1, 5)
+    assetType(a) = Cells(a + 1, 6)
+    productImageAngle(a) = Cells(a + 1, 7)
+    targetChannel(a) = Cells(a + 1, 8)
+    alternate(a) = Cells(a + 1, 9)
+    OOP(a) = Cells(a + 1, 10)
+    bundle(a) = Cells(a + 1, 11)
+Next a
+
+loadCount = Range("Engine!H5").Value
+
+ReDim loadFormattedUPC(loadCount)
+ReDim loadAssetPath(loadCount)
+ReDim loadAssetStatus(loadCount)
+ReDim loadAssetCategory(loadCount)
+ReDim loadBrand(loadCount)
+ReDim loadAssetType(loadCount)
+ReDim loadProductImageAngle(loadCount)
+ReDim loadTargetChannel(loadCount)
+ReDim loadAlternate(loadCount)
+ReDim loadOOP(loadCount)
+ReDim loadBundle(loadCount)
+
+For a = 0 To rowCount
+    If formattedUPC(a) Like "*" & searchValue & "*" Then
+        c = c + 1
+    End If
+Next a
+
+For a = 0 To rowCount
+    If bundleFilter = "Super & None" Then
+        If excludeExpired = "Yes" Then
+                If formattedUPC(a) Like "*" & searchValue & "*" And assetStatus(a) = "PUBLISHED" And (bundle(a) = "None" Or bundle(a) = "Super") Then
+                    ReDim Preserve loadFormattedUPC(b)
+                    ReDim Preserve loadAssetPath(b)
+                    ReDim Preserve loadAssetStatus(b)
+                    ReDim Preserve loadAssetCategory(b)
+                    ReDim Preserve loadBrand(b)
+                    ReDim Preserve loadAssetType(b)
+                    ReDim Preserve loadProductImageAngle(b)
+                    ReDim Preserve loadTargetChannel(b)
+                    ReDim Preserve loadAlternate(b)
+                    ReDim Preserve loadOOP(b)
+                    ReDim Preserve loadBundle(b)
+                    loadFormattedUPC(b) = formattedUPC(a)
+                    loadAssetPath(b) = assetPath(a)
+                    loadAssetStatus(b) = assetStatus(a)
+                    loadAssetCategory(b) = assetCategory(a)
+                    loadBrand(b) = brand(a)
+                    loadAssetType(b) = assetType(a)
+                    loadProductImageAngle(b) = productImageAngle(a)
+                    loadTargetChannel(b) = targetChannel(a)
+                    loadAlternate(b) = alternate(a)
+                    loadOOP(b) = OOP(a)
+                    loadBundle(b) = bundle(a)
+                    b = b + 1
+                End If
+            ElseIf formattedUPC(a) Like "*" & searchValue & "*" Then
+                    ReDim Preserve loadFormattedUPC(b)
+                    ReDim Preserve loadAssetPath(b)
+                    ReDim Preserve loadAssetStatus(b)
+                    ReDim Preserve loadAssetCategory(b)
+                    ReDim Preserve loadBrand(b)
+                    ReDim Preserve loadAssetType(b)
+                    ReDim Preserve loadProductImageAngle(b)
+                    ReDim Preserve loadTargetChannel(b)
+                    ReDim Preserve loadAlternate(b)
+                    ReDim Preserve loadOOP(b)
+                    ReDim Preserve loadBundle(b)
+                    loadFormattedUPC(b) = formattedUPC(a)
+                    loadAssetPath(b) = assetPath(a)
+                    loadAssetStatus(b) = assetStatus(a)
+                    loadAssetCategory(b) = assetCategory(a)
+                    loadBrand(b) = brand(a)
+                    loadAssetType(b) = assetType(a)
+                    loadProductImageAngle(b) = productImageAngle(a)
+                    loadTargetChannel(b) = targetChannel(a)
+                    loadAlternate(b) = alternate(a)
+                    loadOOP(b) = OOP(a)
+                    loadBundle(b) = bundle(a)
+                    b = b + 1
+            End If
+    ElseIf bundleFilter = "Super" Then
+        If excludeExpired = "Yes" Then
+                If formattedUPC(a) Like "*" & searchValue & "*" And assetStatus(a) = "PUBLISHED" And bundle(a) = "Super" Then
+                    ReDim Preserve loadFormattedUPC(b)
+                    ReDim Preserve loadAssetPath(b)
+                    ReDim Preserve loadAssetStatus(b)
+                    ReDim Preserve loadAssetCategory(b)
+                    ReDim Preserve loadBrand(b)
+                    ReDim Preserve loadAssetType(b)
+                    ReDim Preserve loadProductImageAngle(b)
+                    ReDim Preserve loadTargetChannel(b)
+                    ReDim Preserve loadAlternate(b)
+                    ReDim Preserve loadOOP(b)
+                    ReDim Preserve loadBundle(b)
+                    loadFormattedUPC(b) = formattedUPC(a)
+                    loadAssetPath(b) = assetPath(a)
+                    loadAssetStatus(b) = assetStatus(a)
+                    loadAssetCategory(b) = assetCategory(a)
+                    loadBrand(b) = brand(a)
+                    loadAssetType(b) = assetType(a)
+                    loadProductImageAngle(b) = productImageAngle(a)
+                    loadTargetChannel(b) = targetChannel(a)
+                    loadAlternate(b) = alternate(a)
+                    loadOOP(b) = OOP(a)
+                    loadBundle(b) = bundle(a)
+                    b = b + 1
+                End If
+            ElseIf formattedUPC(a) Like "*" & searchValue & "*" Then
+                    ReDim Preserve loadFormattedUPC(b)
+                    ReDim Preserve loadAssetPath(b)
+                    ReDim Preserve loadAssetStatus(b)
+                    ReDim Preserve loadAssetCategory(b)
+                    ReDim Preserve loadBrand(b)
+                    ReDim Preserve loadAssetType(b)
+                    ReDim Preserve loadProductImageAngle(b)
+                    ReDim Preserve loadTargetChannel(b)
+                    ReDim Preserve loadAlternate(b)
+                    ReDim Preserve loadOOP(b)
+                    ReDim Preserve loadBundle(b)
+                    loadFormattedUPC(b) = formattedUPC(a)
+                    loadAssetPath(b) = assetPath(a)
+                    loadAssetStatus(b) = assetStatus(a)
+                    loadAssetCategory(b) = assetCategory(a)
+                    loadBrand(b) = brand(a)
+                    loadAssetType(b) = assetType(a)
+                    loadProductImageAngle(b) = productImageAngle(a)
+                    loadTargetChannel(b) = targetChannel(a)
+                    loadAlternate(b) = alternate(a)
+                    loadOOP(b) = OOP(a)
+                    loadBundle(b) = bundle(a)
+                    b = b + 1
+            End If
+    ElseIf bundleFilter = "None" Then
+        If excludeExpired = "Yes" Then
+                If formattedUPC(a) Like "*" & searchValue & "*" And assetStatus(a) = "PUBLISHED" And bundle(a) = "None" Then
+                    ReDim Preserve loadFormattedUPC(b)
+                    ReDim Preserve loadAssetPath(b)
+                    ReDim Preserve loadAssetStatus(b)
+                    ReDim Preserve loadAssetCategory(b)
+                    ReDim Preserve loadBrand(b)
+                    ReDim Preserve loadAssetType(b)
+                    ReDim Preserve loadProductImageAngle(b)
+                    ReDim Preserve loadTargetChannel(b)
+                    ReDim Preserve loadAlternate(b)
+                    ReDim Preserve loadOOP(b)
+                    ReDim Preserve loadBundle(b)
+                    loadFormattedUPC(b) = formattedUPC(a)
+                    loadAssetPath(b) = assetPath(a)
+                    loadAssetStatus(b) = assetStatus(a)
+                    loadAssetCategory(b) = assetCategory(a)
+                    loadBrand(b) = brand(a)
+                    loadAssetType(b) = assetType(a)
+                    loadProductImageAngle(b) = productImageAngle(a)
+                    loadTargetChannel(b) = targetChannel(a)
+                    loadAlternate(b) = alternate(a)
+                    loadOOP(b) = OOP(a)
+                    loadBundle(b) = bundle(a)
+                    b = b + 1
+                End If
+                ElseIf formattedUPC(a) Like "*" & searchValue & "*" Then
+                    ReDim Preserve loadFormattedUPC(b)
+                    ReDim Preserve loadAssetPath(b)
+                    ReDim Preserve loadAssetStatus(b)
+                    ReDim Preserve loadAssetCategory(b)
+                    ReDim Preserve loadBrand(b)
+                    ReDim Preserve loadAssetType(b)
+                    ReDim Preserve loadProductImageAngle(b)
+                    ReDim Preserve loadTargetChannel(b)
+                    ReDim Preserve loadAlternate(b)
+                    ReDim Preserve loadOOP(b)
+                    ReDim Preserve loadBundle(b)
+                    loadFormattedUPC(b) = formattedUPC(a)
+                    loadAssetPath(b) = assetPath(a)
+                    loadAssetStatus(b) = assetStatus(a)
+                    loadAssetCategory(b) = assetCategory(a)
+                    loadBrand(b) = brand(a)
+                    loadAssetType(b) = assetType(a)
+                    loadProductImageAngle(b) = productImageAngle(a)
+                    loadTargetChannel(b) = targetChannel(a)
+                    loadAlternate(b) = alternate(a)
+                    loadOOP(b) = OOP(a)
+                    loadBundle(b) = bundle(a)
+                    b = b + 1
+            End If
+    Else
+        If excludeExpired = "Yes" Then
+                If formattedUPC(a) Like "*" & searchValue & "*" And assetStatus(a) = "PUBLISHED" Then
+                    ReDim Preserve loadFormattedUPC(b)
+                    ReDim Preserve loadAssetPath(b)
+                    ReDim Preserve loadAssetStatus(b)
+                    ReDim Preserve loadAssetCategory(b)
+                    ReDim Preserve loadBrand(b)
+                    ReDim Preserve loadAssetType(b)
+                    ReDim Preserve loadProductImageAngle(b)
+                    ReDim Preserve loadTargetChannel(b)
+                    ReDim Preserve loadAlternate(b)
+                    ReDim Preserve loadOOP(b)
+                    ReDim Preserve loadBundle(b)
+                    loadFormattedUPC(b) = formattedUPC(a)
+                    loadAssetPath(b) = assetPath(a)
+                    loadAssetStatus(b) = assetStatus(a)
+                    loadAssetCategory(b) = assetCategory(a)
+                    loadBrand(b) = brand(a)
+                    loadAssetType(b) = assetType(a)
+                    loadProductImageAngle(b) = productImageAngle(a)
+                    loadTargetChannel(b) = targetChannel(a)
+                    loadAlternate(b) = alternate(a)
+                    loadOOP(b) = OOP(a)
+                    loadBundle(b) = bundle(a)
+                    b = b + 1
+                End If
+                ElseIf formattedUPC(a) Like "*" & searchValue & "*" Then
+                    ReDim Preserve loadFormattedUPC(b)
+                    ReDim Preserve loadAssetPath(b)
+                    ReDim Preserve loadAssetStatus(b)
+                    ReDim Preserve loadAssetCategory(b)
+                    ReDim Preserve loadBrand(b)
+                    ReDim Preserve loadAssetType(b)
+                    ReDim Preserve loadProductImageAngle(b)
+                    ReDim Preserve loadTargetChannel(b)
+                    ReDim Preserve loadAlternate(b)
+                    ReDim Preserve loadOOP(b)
+                    ReDim Preserve loadBundle(b)
+                    loadFormattedUPC(b) = formattedUPC(a)
+                    loadAssetPath(b) = assetPath(a)
+                    loadAssetStatus(b) = assetStatus(a)
+                    loadAssetCategory(b) = assetCategory(a)
+                    loadBrand(b) = brand(a)
+                    loadAssetType(b) = assetType(a)
+                    loadProductImageAngle(b) = productImageAngle(a)
+                    loadTargetChannel(b) = targetChannel(a)
+                    loadAlternate(b) = alternate(a)
+                    loadOOP(b) = OOP(a)
+                    loadBundle(b) = bundle(a)
+                    b = b + 1
+            End If
+    End If
+Next a
+
+With Worksheets("Engine")
+    .Range("C11:C" & c) = Application.Transpose(loadFormattedUPC)
+    .Range("D11:D" & c) = Application.Transpose(loadAssetPath)
+    .Range("E11:E" & c) = Application.Transpose(loadAssetCategory)
+    .Range("F11:F" & c) = Application.Transpose(loadBrand)
+    .Range("G11:G" & c) = Application.Transpose(loadTargetChannel)
+    .Range("H11:H" & c) = Application.Transpose(loadAlternate)
+    .Range("I11:I" & c) = Application.Transpose(loadOOP)
+    .Range("J11:J" & c) = Application.Transpose(loadBundle)
+End With
+
+Worksheets("Engine").Activate
+
+Application.ScreenUpdating = True
+Application.Calculation = xlAutomatic
+
+End Sub
+
